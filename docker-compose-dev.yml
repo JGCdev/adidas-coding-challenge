@@ -1,0 +1,61 @@
+version: "3.9"
+
+services:
+
+  public:
+    container_name: public-service
+    build: 
+      context: ./public
+    ports:
+      - 8080:3000
+    networks:
+      - public
+      - private
+
+  subscriptions:
+    container_name: subscriptions-service
+    build: 
+      context: ./subscriptions
+      dockerfile: Dockerfile.dev
+    ports:
+      - 8081:3001
+    networks:
+      - private
+
+  email:
+    container_name: email-service
+    build: 
+      context: ./email
+      dockerfile: Dockerfile.dev
+    ports:
+      - 8082:3002
+    networks:
+      - private
+      
+  mongo:
+    container_name: mongodb-service
+    image: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./mongo:/data/db
+    networks:
+      - private
+    command: --quiet
+
+  swagger:
+    container_name: swagger-service
+    image: swaggerapi/swagger-ui
+    ports:
+      - "8081:8080"
+    volumes:
+      - ./docs:/data/swagger
+    environment:
+      SWAGGER_JSON: /data/swagger/swagger.json
+    networks:
+      - public
+
+networks:
+    public:
+    private:
+        internal: true

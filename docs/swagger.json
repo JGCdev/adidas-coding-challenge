@@ -1,0 +1,170 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Testing API for Adidas Challenge",
+    "version": "1.0.0",
+    "title": "Subscriptions API Documentation",
+    "contact": {
+      "email": "contacto@jesusgimenez.com"
+    }
+  },
+  "host": "localhost:8080",
+  "basePath": "/api",
+  "tags": [
+    {
+      "name": "Subscriptions"
+    }
+  ],
+  "paths": {
+    "/subscription": {
+      "post": {
+        "summary": "Create subscription",
+        "tags": [
+          "Subscriptions"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "subscription",
+            "description": "Create subscription",
+            "schema": {
+              "type": "object",
+              "required": [
+                "email",
+                "birthDate",
+                "consent",
+                "newsletterId"
+              ],
+              "properties": {
+                "email": {
+                  "type": "string"
+                },
+                "firstName": {
+                  "type": "string"
+                },
+                "gender": {
+                  "type": "string",
+                  "enum": ["M", "F"]
+                },
+                "birthDate": {
+                  "type": "string"
+                },
+                "consent": {
+                  "type": "boolean"
+                },
+                "newsletterId": {
+                  "type": "string"
+                }
+                
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the ID of created subscription."
+          },
+          "400": {
+            "description": "Validation error."
+          },
+          "409": {
+            "description": "Subscription already exists."
+          }
+        }
+      }
+    },
+    "/subscriptions": {
+      "get": {
+        "summary": "List all subscriptions",
+        "tags": [
+          "Subscriptions"
+        ],
+        "responses": {
+          "200": {
+            "description": "List all subscriptions"
+          },
+          "404": {
+            "description": "Error getting subscriptions"
+          }
+        }
+      }
+    },
+    "/subscription/{id}": {
+      "get": {
+        "summary": "Get subscription",
+        "tags": [
+          "Subscriptions"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "required": true,
+            "description": "Subscription ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns Subscription(object)"
+          },
+          "404": {
+            "description": "Subscription not found"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete subscription",
+        "tags": [
+          "Subscriptions"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "required": true,
+            "description": "Subscription ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Subscription not found"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Subscription": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "gender": {
+          "type": "string",
+          "enum": ["M", "F"]
+        },
+        "birthDate": {
+          "type": "string"
+        },
+        "consent": {
+          "type": "boolean"
+        },
+        "newsletterId": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
